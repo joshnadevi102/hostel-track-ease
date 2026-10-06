@@ -8,6 +8,13 @@
       "when": 1791304687227,
       "tag": "0000_campuscare_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791304710357,
+      "tag": "0001_storage_private_policies",
+      "breakpoints": true
     }
   ]
 }
