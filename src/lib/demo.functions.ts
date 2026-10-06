@@ -69,7 +69,7 @@ export const ensureDemoData = createServerFn({ method: "POST" }).handler(async (
     const { data: c, error } = await db
       .from("complaints")
       .insert({
-        student_id: ids.student,
+        student_id: ids["student"]!,
         hostel_id: hostel.id,
         category_id: cat(s.cat),
         title: s.title,
@@ -79,7 +79,7 @@ export const ensureDemoData = createServerFn({ method: "POST" }).handler(async (
         priority: s.pr,
         status: s.st,
         created_at: created,
-        assigned_to: idx >= 2 ? ids.staff : null,
+        assigned_to: idx >= 2 ? ids["staff"]! : null,
         verification_notes: idx >= 1 ? "Checked on site, issue confirmed." : null,
         resolution_notes: idx >= 4 ? "Repaired and tested." : null,
         resolved_at: idx >= 4 ? day(Math.max(s.ago - 1, 0)) : null,
@@ -88,16 +88,16 @@ export const ensureDemoData = createServerFn({ method: "POST" }).handler(async (
       .select("id")
       .single();
     if (error || !c) continue;
-    const actors = [ids.volunteer, ids.warden, ids.staff, ids.staff, ids.warden];
+    const actors = [ids["volunteer"]!, ids["warden"]!, ids["staff"]!, ids["staff"]!, ids["warden"]!];
     const notes = ["Verified on site", "Assigned to Ramesh Patil", "Work started", "Repaired and tested", "Resolution verified by warden"];
     const rows = [];
     for (let i = 1; i <= idx; i++) {
       rows.push({
         complaint_id: c.id,
-        user_id: actors[i - 1],
-        old_status: order[i - 1],
-        new_status: order[i],
-        note: notes[i - 1],
+        user_id: actors[i - 1] ?? null,
+        old_status: order[i - 1] ?? null,
+        new_status: order[i] ?? null,
+        note: notes[i - 1] ?? null,
         created_at: new Date(new Date(created).getTime() + i * 3600000 * 6).toISOString(),
       });
     }

@@ -16,8 +16,8 @@ import { DEMO_PASSWORD, ensureDemoData } from "@/lib/demo.functions";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => ({
-    redirect: typeof s.redirect === "string" ? s.redirect : undefined,
-    mode: s.mode === "signup" ? ("signup" as const) : undefined,
+    redirect: typeof s["redirect"] === "string" ? s["redirect"] : undefined,
+    mode: s["mode"] === "signup" ? ("signup" as const) : undefined,
   }),
   head: () => ({
     meta: [
@@ -75,7 +75,7 @@ function AuthPage() {
     setBusy(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     await done();
   };
 
@@ -92,7 +92,7 @@ function AuthPage() {
 
   const signUp = async () => {
     const p = signupSchema.safeParse(su);
-    if (!p.success) return toast.error(p.error.issues[0].message);
+    if (!p.success) return toast.error(p.error.issues[0]?.message ?? "Invalid input");
     if (!su.hostel) return toast.error("Select your hostel");
     setBusy(true);
     const { data, error } = await supabase.auth.signUp({
