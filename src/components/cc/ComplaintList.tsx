@@ -78,7 +78,7 @@ function FilterSelect({ label, value, onChange, options }: { label: string; valu
       <SelectContent>
         <SelectItem value="all">All {label.toLowerCase()}</SelectItem>
         {options.map(([v, l]) => (
-          <SelectItem key={v} value={v}>{l}</SelectItem>
+          <SelectItem key={v} value={v!}>{l}</SelectItem>
         ))}
       </SelectContent>
     </Select>

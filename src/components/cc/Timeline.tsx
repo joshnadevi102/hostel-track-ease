@@ -24,7 +24,7 @@ export function StatusStepper({ status }: { status: Status }) {
               >
                 {done ? <Check className="h-4 w-4" /> : i + 1}
               </span>
-              <div className={cn("h-1 flex-1 rounded", i === STATUSES.length - 1 ? "invisible" : i < idx ? STATUS_DOT[STATUSES[i + 1]] : "bg-border")} />
+              <div className={cn("h-1 flex-1 rounded", i === STATUSES.length - 1 ? "invisible" : i < idx ? STATUS_DOT[STATUSES[i + 1]!] : "bg-border")} />
             </div>
             <span className={cn("mt-2 text-[10px] font-medium leading-tight sm:text-xs", current ? "text-foreground" : "text-muted-foreground")}>
               {STATUS_LABEL[s]}

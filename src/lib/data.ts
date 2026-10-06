@@ -63,7 +63,7 @@ export function useComplaint(id: string) {
       let urls: Record<string, string> = {};
       if (paths.length) {
         const { data } = await supabase.storage.from("complaint-images").createSignedUrls(paths, 3600);
-        urls = Object.fromEntries((data ?? []).map((d) => [d.path ?? "", d.signedUrl]));
+        urls = Object.fromEntries((data ?? []).map((d) => [d.path ?? "", d.signedUrl ?? ""]));
       }
       return {
         complaint: c.data as unknown as ComplaintRow | null,
