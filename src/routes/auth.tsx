@@ -15,9 +15,9 @@ import { useHostels } from "@/lib/data";
 import { DEMO_PASSWORD, ensureDemoData } from "@/lib/demo.functions";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({
+  validateSearch: (s: Record<string, unknown>): { redirect?: string; mode?: "signup" } => ({
     redirect: typeof s["redirect"] === "string" ? s["redirect"] : undefined,
-    mode: s["mode"] === "signup" ? ("signup" as const) : undefined,
+    mode: s["mode"] === "signup" ? "signup" : undefined,
   }),
   head: () => ({
     meta: [
