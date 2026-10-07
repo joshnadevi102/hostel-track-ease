@@ -16,7 +16,7 @@ import { errMsg, uploadComplaintImage, useCategories, useHostels } from "@/lib/d
 import { PRIORITIES, PRIORITY_LABEL, type Priority } from "@/lib/constants";
 
 export const Route = createFileRoute("/_authenticated/complaints/new")({
-  validateSearch: (s: Record<string, unknown>): { qr?: string } => ({ qr: typeof s["qr"] === "string" ? s["qr"] : undefined }),
+  validateSearch: (s: Record<string, unknown>): { qr?: string | undefined } => ({ qr: typeof s["qr"] === "string" ? s["qr"] : undefined }),
   head: () => ({ meta: [{ title: "Raise Complaint — CampusCare" }, { name: "description", content: "Report a hostel problem." }] }),
   component: NewComplaint,
 });
