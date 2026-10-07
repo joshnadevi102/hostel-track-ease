@@ -69,7 +69,7 @@ function Detail() {
   );
 }
 
-function Info({ k, v }: { k: string; v?: string | null }) {
+function Info({ k, v }: { k: string; v?: string | null | undefined }) {
   return (<div><dt className="text-xs text-muted-foreground">{k}</dt><dd className="font-medium">{v || "—"}</dd></div>);
 }
 function Note({ label, text }: { label: string; text: string }) {
@@ -141,13 +141,11 @@ function Actions({ c, me }: { c: ComplaintRow; me: Me }) {
         const type = to === "resolved" ? "after" : to === "verified" ? "verification" : "before";
         await uploadComplaintImage(me.id, c.id, file, type);
       }
-      const { error } = await supabase.rpc("update_complaint_status", {
-        _complaint_id: c.id,
-        _new_status: to,
-        _note: note.trim() || undefined,
-        _assigned_to: to === "assigned" ? assignee : undefined,
-        _team_id: to === "assigned" && team ? team : undefined,
-      });
+      const args: { _complaint_id: string; _new_status: typeof to; _note?: string; _assigned_to?: string; _team_id?: string } = { _complaint_id: c.id, _new_status: to };
+      if (note.trim()) args._note = note.trim();
+      if (to === "assigned") args._assigned_to = assignee;
+      if (to === "assigned" && team) args._team_id = team;
+      const { error } = await supabase.rpc("update_complaint_status", args);
       if (error) throw error;
     }, "Complaint updated");
 
